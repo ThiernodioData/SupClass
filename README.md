@@ -28,3 +28,9 @@ Cahier des tests : Outil principal permettant d’évaluer et de suivre la progr
 Username : admin
 Email address: diallothiernoidrissa352@gmail.com
 Password: supclass221
+
+## Frontend
+Le frontend est développé en HTML, CSS et JavaScript. Les pages sont structurées de manière
+
+## Backend
+Le backend est développé en Python avec Django. Les fonctionnalités sont implémentées en utilis
