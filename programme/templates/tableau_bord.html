@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/styles_main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles-responsive2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style3.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styleOnOffInternet.css' %}">
+{% endblock head %}
+
+{% block content %}
+    <div class="dashboard-container row col-11">
+        <!-- Bare d'onglet -->
+        <aside class="main-sidebar col-2">
+            <header class="aside-header">
+                <div class="brand" id="logo">
+                    <img src="{% static 'images/logosup.png' %}"  alt="Logo" />
+                    <h3>CAHIER DE TEXT</h3>
+                </div>
+                <div class="close" id="closeSidebar">
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </div>
+            </header>
+
+            <div class="sidebar" id="sidebar">
+                <ul class="list-items">
+                    <li class="item" id="tableauBord">
+                        <a href="#" class="active">
+                            <span class="material-symbols-outlined">
+                                bar_chart_4_bars
+                                </span>
+                            <span>Tableau de bord</span>
+                        </a>
+                    </li>
+                    <li class="item" id="cahierText">
+                        <a href="#" class="">
+                            <span class="material-symbols-outlined">
+                                groups
+                            </span>
+                            <span>Cahier de Text</span>
+                        </a>
+                    </li>
+                    <li class="item">
+                        <a href="#">
+                            <span class="material-symbols-outlined">
+                                calendar_month
+                            </span>
+                            <span>Emplois du Temps</span>
+                        </a>
+                    </li>
+                    
+                    <li class="item">
+                        <a href="#">
+                            <span class="material-symbols-outlined">
+                                chat
+                            </span>
+                            <span>Messagerie</span>
+                            <span class="message-count">17</span>
+                        </a>
+                    </li>
+    
+                    <li class="item">
+                        <a href="#">
+                            <span class="material-symbols-outlined">
+                                help
+                            </span>
+                            <span>Aide</span>
+                        </a>
+                    </li>
+                    
+                    <li class="item" id="seDeconnecter">
+                        <a href="#">
+                            <span class="material-symbols-outlined">
+                                logout
+                            </span>
+                            <span>Se Deconnecter</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-container">
+            <div id="dashBody1">        
+                <h1 class="main-title">Dashboard</h1>
+
+                <!-- CARD -->
+                <div class="insights">
+                    <div class="card" id="card1">
+                        <div class="card-container">
+                            <div class="card-header">
+                                <span class="material-symbols-outlined">
+                                    computer
+                                    </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-info">
+                                    <h3>Département</h3>
+                                    <h1>ESITEC</h1>
+                                </div>
+
+                                <div class="card-progress">
+                                    <svg width="96" height="96">
+                                        <circle
+                                            id="circle1"
+                                            cx="38"
+                                            cy="38"
+                                            r="36"
+                                            class="stroke-yellow"
+                                        ></circle>
+                                    </svg>
+                                    <div class="percentage">
+                                        <p>78%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <small>Sur les 48H precedentes</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" id="card2">
+                        <div class="card-container">
+                            <div class="card-header">
+                                <span class="material-symbols-outlined">
+                                    library_books
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-info">
+                                    <h3>Département</h3>
+                                    <h1>MERCURE</h1>
+                                </div>
+
+                                <div class="card-progress">
+                                    <svg width="96" height="96">
+                                        <circle
+                                            id="circle2"
+                                            cx="38"
+                                            cy="38"
+                                            r="36"
+                                            class="stroke-fuscha"
+                                        ></circle>
+                                    </svg>
+                                    <div class="percentage">
+                                        <p>59%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <small>Sur les 48H precedentes</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" id="card3">
+                        <div class="card-container">
+                            <div class="card-header">
+                                <span class="material-symbols-outlined">
+                                    local_shipping
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-info">
+                                    <h3>Département</h3>
+                                    <h1>TRANSPORT</h1>
+                                </div>
+
+                                <div class="card-progress">
+                                    <svg
+                                        width="96"
+                                        height="96"
+                                        class="stroke-cyan"
+                                    >
+                                        <circle
+                                            id="circle3"
+                                            cx="38"
+                                            cy="38"
+                                            r="36"
+                                        ></circle>
+                                    </svg>
+                                    <div class="percentage">
+                                        <p>30%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <small>Sur les 48H precedentes</small>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                
+
+                <!-- RECENT ORDERS -->
+                <section class="recent-orders">
+                    <div class="ro-title">
+                        <h2 class="recent-orders-title">Enregistrement recentes</h2>
+                        <a href="#" class="show-all">Tout afficher</a>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>NOM</th>
+                                <th>PRENOM</th>
+                                <th>NIVEAU</th>
+                                <th>MATIERE</th>
+                                <th>Statut</th><!--present absence absence-justifier-->
+                                <th>DATE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Diallo</td>
+                            <td>Thierno Idrissa</td>
+                            <td>LICENCE 1</td>
+                            <td>JavaScript</td>
+                            <td class="text-success">present</td>
+                            <td>24/07/2024</td>
+                        </tr>
+                        <tr>
+                            <td>Diallo</td>
+                            <td>Thierno Idrissa</td>
+                            <td>LICENCE 1</td>
+                            <td>JavaScript</td>
+                            <td class="text-success">present</td>
+                            <td>24/07/2024</td>
+                        </tr>
+                        
+
+
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            
+        </main>
+
+    </div>
+
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'js/script2.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="{% static 'script2.js' %}"></script>
+    <script src="{% static 'script3.js' %}"></script>
+    <script src="{% static 'onOffInternet.js' %}"></script>
+{% endblock js %}

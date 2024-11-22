@@ -30,7 +30,7 @@ Email address: diallothiernoidrissa352@gmail.com
 Password: supclass221
 
 ## Frontend
-Le frontend est développé en HTML, CSS et JavaScript. Les pages sont structurées de manière
+Le frontend est développé en HTML, CSS,Bootstrap et JavaScript. Les pages sont structurées de manière
 
 ## Backend
 Le backend est développé en Python avec Django. Les fonctionnalités sont implémentées en utilis
