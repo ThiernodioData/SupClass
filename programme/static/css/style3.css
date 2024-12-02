@@ -1,0 +1,176 @@
+#dashBody2{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+#dashBody2 .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+}
+
+/* .setup, .attendance-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+} */
+
+.setup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.setup .info1, .setup .info2 {
+    width: 100%;
+}
+
+.setup .info1 label, .setup .info2 label {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.setup .info1 input, .setup .info2 select {
+    font-size: 17px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.setup .btngroup1 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* .setup .btngroup1 button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin: 5px 0;
+    text-align: center;
+} */
+
+/* button {
+    background-color: #28a745 n !important;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin: 5px 0;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+} */
+
+/* .setup .btngroup1 button:hover {
+    background-color: #218838;
+} */
+
+.student-input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.student-input h2 {
+    margin: 10px 0;
+}
+
+.student-input label, .student-input input {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.attendance-form {
+    height: auto;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.hide {
+    display: none;
+}
+
+#generatePdf:hover {
+    opacity: .9;
+}
+
+/* Responsive Design */
+@media (min-width: 600px) {
+    .setup .btngroup1 {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .setup .btngroup1 button {
+        width: 48%;
+    }
+}
+
+.student {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.lb1 {
+    width: 45%;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.lb2 {
+    color: green;
+}
+
+.lb3 {
+    color: red;
+}
+
+.lb4 {
+    color: gold;
+}
+.text-green {
+    color: green;
+}
+
+.text-red {
+    color: red;
+}
+
+.text-yellow {
+    color: yellow;
+}
+.attendance-form form.formBody{
+    width: 90% !important;
+}

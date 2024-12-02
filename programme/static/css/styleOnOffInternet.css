@@ -1,0 +1,36 @@
+.onOffInternet{
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* background: rgba(255,0,0,.3);
+    background: rgba(5, 162, 5,.3); */
+    z-index: 1000;
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: 20px;
+    padding: 0 30px;
+    border-radius: 15px;
+    color: white;
+    font-family: 'Source Sans Pro', sans-serif;
+
+    /* box-shadow: 0 0 30px rgba(5, 162, 5,.5); */
+}
+
+.onOffInternet button{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.onOffInternet.online{
+    background: rgba(5, 162, 5,.3);
+}
+
+.onOffInternet.offline{
+    background: rgba(255,0,0,.3);
+}
