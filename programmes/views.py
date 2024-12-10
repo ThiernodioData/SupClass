@@ -7,8 +7,12 @@ def connexion(request):
     'niveaux': []  # Vous pouvez ajouter des données ici si nécessaire
     }
     return render(request, 'connexion.html', context)
+
 def tableau_bord(request):
     return render(request, 'tableau_bord.html')
+
+def emploi_temps(request):
+    return render(request, 'emploi_temps.html')
 
 # def acceuil(request):
 #     return render(request, 'utilisateurs/index.html')
