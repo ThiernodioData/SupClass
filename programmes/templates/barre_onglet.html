@@ -1,0 +1,81 @@
+{% load static %}
+        
+<!-- Sidebar -->
+<aside class="main-sidebar bg-red">
+    <header class="aside-header">
+        <div class="brand">
+            <img src="{% static 'images/logosup.png' %}" alt="Logo" />
+            <h3>SUPSCHOOL</h3>
+        </div>
+        <div class="close" id="closeSidebar">
+            <span class="material-icons-sharp"> close </span>
+        </div>
+    </header>
+
+    <div class="sidebar" id="sidebar">
+        <ul class="list-items">
+            <li class="item">
+                <a href="{% url 'programme:tableau_bord' %}" id="dashboard">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Tableau de bord</span>
+                </a>
+            </li>
+            <li class="item">
+                <a href="{% url 'programme:emplois_du_temps' %}">
+                    <span class="material-symbols-outlined">globe_book</span>
+                    <span>Emplois du Temps</span>
+                </a>
+            </li>
+            <li class="item">
+                <a href="{% url 'programme:eleves' %}">
+                    <span class="material-symbols-outlined">group_add</span>
+                    <span>Elèves</span>
+                </a>
+            </li>
+            <li class="item">
+                <a href="{% url 'programme:enseignants' %}">
+                    <span class="material-symbols-outlined">group_add</span>
+                    <span>Enseignants</span>
+                </a>
+            </li>
+            <li class="item">
+                <a href="{% url 'programme:cours' %}" class="active">
+                    <span class="material-symbols-outlined">menu_book</span>
+                    <span>Cours</span>
+                </a>
+            </li>
+            <li class="item">
+                <a href="{% url 'programme:emargements' %}">
+                    <span class="material-symbols-outlined">note_alt</span>
+                    <span>Emargements</span>
+                </a>
+            </li>
+            <li class="item">
+                <a href="{% url 'programme:notes' %}">
+                    <span class="material-symbols-outlined">add_notes</span>
+                    <span>Notes</span>
+                </a>
+            </li>
+            <li class="item">
+                <a href="{% url 'programme:salles' %}">
+                    <span class="material-symbols-outlined">meeting_room</span>
+                    <span>Salles</span>
+                </a>
+            </li>
+            <li class="item">
+                <a href="{% url 'programme:classe' %}">
+                    <span class="material-symbols-outlined">history_edu</span>
+                    <span>Classe</span>
+                </a>
+            </li>
+            
+            <li class="item">
+                <a href="{% url 'programme:logout' %}">
+                    <span class="material-symbols-outlined">login</span>
+                    <span>Se Deconnecter</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
+

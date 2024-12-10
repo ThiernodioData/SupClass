@@ -4,18 +4,45 @@ from django.contrib.auth.decorators import login_required
 
 def connexion(request):
     context = {
-    'niveaux': []  # Vous pouvez ajouter des données ici si nécessaire
+        'niveaux': []  # Vous pouvez ajouter des données ici si nécessaire
     }
     return render(request, 'connexion.html', context)
 
+@login_required
 def tableau_bord(request):
     return render(request, 'tableau_bord.html')
 
-def emploi_temps(request):
-    return render(request, 'emploi_temps.html')
+@login_required
+def emplois_du_temps(request):
+    return render(request, 'emplois_du_temps.html')
 
-# def acceuil(request):
-#     return render(request, 'utilisateurs/index.html')
+@login_required
+def eleves(request):
+    return render(request, 'eleves.html')
+
+@login_required
+def enseignants(request):
+    return render(request, 'enseignants.html')
+
+@login_required
+def cours(request):
+    return render(request, 'cours.html')
+
+@login_required
+def emargements(request):
+    return render(request, 'emargements.html')
+
+@login_required
+def notes(request):
+    return render(request, 'notes.html')
+
+@login_required
+def salles(request):
+    return render(request, 'salles.html')
+
+@login_required
+def classe(request):
+    return render(request, 'classe.html')
 
 def user_login(request):
     if request.method == 'POST':
@@ -33,8 +60,6 @@ def user_login(request):
             return render(request, 'connexion.html', {'error': "Nom d'utilisateur ou mot de passe incorrect"})
     else:
         return render(request, 'connexion.html')
-
-@login_required
 
 @login_required
 def user_logout(request):

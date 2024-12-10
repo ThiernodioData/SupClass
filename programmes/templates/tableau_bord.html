@@ -1,405 +1,231 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block head %}
-    {% comment %} <link rel="stylesheet" href="{% static 'css/styles_main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles-responsive2.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style3.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styleOnOffInternet.css' %}"> {% endcomment %}
-    <script>
-        const imagePath = "{% static 'images/' %}"; // Définir le chemin de base pour les images
-    </script>
+
 {% endblock head %}
 
 {% block content %}
     <div class="dashboard-container ">
-            <!-- Sidebar -->
-            <aside class="main-sidebar bg-red">
-                <header class="aside-header">
-                    <div class="brand">
-                        <img src="{% static 'images/logosup.png' %}" alt="Logo" />
-                        <h3>SUPSCHOOL</h3>
+        <!-- Inclure la barre d'onglet -->
+        {% include 'barre_onglet.html' %}
+
+        <!-- Main -->
+        <main class="main-container">
+            <div class="header-right row col-12 bg-red p-5 d-flex justify-content-between align-items-center">
+                <div class="info d-flex justify-content-between align-items-center col-auto">
+                    <span class="material-symbols-outlined icone toggle-menu-btn" id="openSidebar">lists</span>
+                    <h1 class="main-title fw-bold text-grey fs-20 me-4 d-inline-block col-4 sup">SUPSCHOOL</h1>
+                    <div class="date d-flex">
+                        <span id="dateHeureAffichage" class="mt-3 fw-bold h1"></span>
+                        <span class="material-symbols-outlined">calendar_month</span>
                     </div>
-                    <div class="close" id="closeSidebar">
-                        <span class="material-icons-sharp"> close </span>
+                    <span class="material-symbols-outlined">instant_mix</span>
+                    <div class="toggle-theme mx-5">
+                        <span class="material-symbols-outlined icone material-icons-sharp active">light_mode</span>
+                        <span class="material-symbols-outlined icone material-icons-sharp">bedtime</span>
                     </div>
-                </header>
+                    <div class="profile">
+                        <div class="profile-info">
+                            <p>User: <strong>Admin</strong></p>
+                        </div>
+                        <div class=" profile-image">
+                            <img id="dashboard-icon" class="rounded-circle" src="{% static 'images/admin.jpg' %}" style="width: 30px; height: 30px;" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <div class="sidebar" id="sidebar">
-                    <ul class="list-items">
-                        <li class="item">
-                            <a href="#" id="dashboard">
+            <!-- CARDS -->
+            <div class="insights">
+                <div class="card border-0">
+                    <div class="card-container">
+                        <div class="card-header bg-transparent border-0">
+                            <span class="material-icons-sharp">bar_chart</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-info">
+                                <h3>Total des étudiants</h3>
+                                <h1>5 000</h1>
+                            </div>
+                            <div class="card-progress">
+                                <svg width="96" height="96">
+                                    <circle id="circle1" cx="38" cy="38" r="36" class="stroke-yellow"></circle>
+                                </svg>
+                                <div class="percentage">
+                                    <p>17%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <small>Au cours des 48 dernières heures</small>
+                        </div>
+                    </div>
+                </div>
 
-                                <img id="1" src="" style="width: 25px; height: 25px;" alt="">
-                                <span>Tableau de bord</span>
-                            </a>
-                        </li>
-                        <li class="item">
-                            <a href="#">
-                                <img id="2" src="" style="width: 30px; height: 30px;" alt="">
+                <div class="card border-0">
+                    <div class="card-container">
+                        <div class="card-header bg-transparent border-0">
+                            <span class="material-icons-sharp">add_shopping_cart</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-info">
+                                <h3>Nouvelles inscriptions</h3>
+                                <h1>150</h1>
+                            </div>
+                            <div class="card-progress">
+                                <svg width="96" height="96">
+                                    <circle id="circle2" cx="38" cy="38" r="36" class="stroke-fuscha"></circle>
+                                </svg>
+                                <div class="percentage">
+                                    <p>72%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <small>Au cours des 48 dernières heures</small>
+                        </div>
+                    </div>
+                </div>
 
-                                <span>Elèves</span>
-                            </a>
-                        </li>
-                        <li class="item">
-                            <a href="#">
-                                <img id="3" src="" style="width: 30px; height: 30px;" alt="">
-                                
-                                <span>Scolarité</span>
-                            </a>
-                        </li>
-                        <li class="item">
-                            <a href="#" class="">
-                                <img id="4" src="" style="width: 30px; height: 30px;" alt="">
+                <div class="card border-0">
+                    <div class="card-container">
+                        <div class="card-header bg-transparent border-0">
+                            <span class="material-icons-sharp">group_add</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-info">
+                                <h3>Enseignants actifs</h3>
+                                <h1>320</h1>
+                            </div>
+                            <div class="card-progress">
+                                <svg width="96" height="96" class="stroke-cyan">
+                                    <circle id="circle3" cx="38" cy="38" r="36"></circle>
+                                </svg>
+                                <div class="percentage">
+                                    <p>43%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <small>Comparé au mois dernier</small>
+                        </div>
+                    </div>
+                </div>
 
-                                <span>Enseignants</span>
-                            </a>
-                        </li>
-                        <li class="item">
-                            <a href="#" class="active">
-                                <img id="5" src="" style="width: 30px; height: 30px;" alt="">
+                <div class="card border-0">
+                    <div class="card-container">
+                        <div class="card-header bg-transparent border-0">
+                            <span class="material-icons-sharp">group_add</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-info">
+                                <h3>Total des paiements</h3>
+                                <h1>450K FCFA</h1>
+                            </div>
+                            <div class="card-progress">
+                                <svg width="96" height="96" class="stroke-cyan">
+                                    <circle id="circle4" cx="38" cy="38" r="36"></circle>
+                                </svg>
+                                <div class="percentage">
+                                    <p>43%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <small>Au cours des 30 derniers jours</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                <span>Cours</span>
-                                
-                            </a>
-                        </li>
-                        <li class="item">
-                            <a href="#">
-                                <img id="6" src="" style="width: 30px; height: 30px;" alt="">
+            <!-- RECENT ORDERS (tableau de list et filtrage)-->
+            <section class="recent-orders">
+                <div class="my-5 py-5"></div>
+                <div class="col-12 p-5 d-flex align-items-center barre_filter my-5 fw-bold">
+                    <img src="{% static 'images/icon_filter.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
+                    <p class="fs-1 ms-3 text-primary">Filter par: </p>
+                    <p class="fs-1 mx-5">Annees Scolaire: </p>
+                    <select name="" id="" class="rounded-4 mx-1">
+                        <option value="" default>-----------</option>
+                        <option value="2020-2021">2020-2021</option>
+                        <option value="2022-2023">2022-2023</option>
+                        <option value="2024-2025">2024-2025</option>
+                    </select>
+                    <p class="fs-1 mx-5">Classe: </p>
+                    <select name="" id="" class="rounded-4 mx-1">
+                        <option value="" default>-----------</option>
+                        <option value="Licence 1">Licence 1</option>
+                        <option value="Licence 2">Licence 2</option>
+                    </select>
+                    <p class="fs-1 mx-5">Niveau: </p>
+                    <select name="" id="" class="rounded-4 mx-1">
+                        <option value="" default>-----------</option>
+                        <option value="Niveau 1">Niveau 1</option>
+                        <option value="Niveau 2">Niveau 2</option>
+                    </select>
+                    <button class="btn btn-outline-primary fs-1 px-5 py-3 mx-4">Filtrer</button>
+                    <img src="{% static 'images/icon_printer.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
+                    <p class="fs-1 ms-3 ">Imprimer </p>
+                </div>
 
-                                <span>Emargements</span>
-                            </a>
-                        </li>
-                        <li class="item">
-                            <a href="#">
-                                <img id="7" src="" style="width: 30px; height: 30px;" alt="">
-
-                                <span>Notes</span>
-                            </a>
-                        </li>
-                        <li class="item">
-                            <a href="#">
-                                <img id="8" src="" style="width: 30px; height: 30px;" alt="">
-
-                                <span>Salles</span>
-                            </a>
-                        </li>
-                        <li class="item">
-                            <a href="#">
-                                <img id="10" src="" style="width: 30px; height: 30px;" alt="">
-
-                                <span>Classe</span>
-                            </a>
-                        </li>
-                        <li class="item">
-                            <a href="#">
-                                <img id="9" src="" style="width: 30px; height: 30px;" alt="">
-
-                                <span>Emplois du Temps</span>
-                            </a>
-                        </li>
+                <table class="rounded-5">
+                    <div class="d-flex justify-content-center align-item-center p-2 barre-info margin-bottom--15 ">
+                        <div class="col-12 bg-yellow d-flex justify-content-center align-item-center py-4 rounded-4 mx-5">
+                            <p class="fs-1 fw-bold">Information du cadre</p>
+                        </div>
+                    </div>
+                    <thead class="">
+                        <tr class="">
+                            <th>Détail</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Niveau</th>
+                            <th>Matiere</th>
+                            <th>Status</th>
+                            <th>Action</th>                                
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img src="{% static 'images/icon_eye.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
+                            </td>
+                            <td>Diallo</td>
+                            <td>Tidiane</td>
+                            <td>Licence 2</td>
+                            <td>Algo3</td>
+                            <td>Present</td>
+                            <td class="d-flex justify-content-center align-items-center">
+                                <img src="{% static 'images/icon_edit.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
+                                <div class="p-5 "></div>
+                                <img src="{% static 'images/icon_delete.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Delete Icon" />
+                            </td>
+                        </tr>
                         
-
-                        <li class="item">
-                            <a href="#">
-                                <img id="11" src="" style="width: 30px; height: 30px;" alt="">
-                                <span>Se Deconnecter</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
-
-            <!-- Main -->
-            <main class="main-container">
-                <!-- header barre d'information et d'authentification  -->
-                <div class="header-right row col-12 bg-red p-5 d-flex justify-content-between align-items-center">
-                    <div class="info d-flex justify-content-between align-items-center col-auto">
-
-                        <img src="" class="icone toggle-menu-btn" id="openSidebar" alt="" style="width: 25px; height: 25px;">
-
-                        <h1 class="main-title fw-bold text-grey fs-20 me-4 d-inline-block col-4 sup">SUPSCHOOL</h1>
-
-                        <div class="date d-flex">
-                            <span id="dateHeureAffichage" class=" mt-3 fw-bold h1"></span>
-                            <!-- <span class="material-symbols-outlined">calendar_month</span> -->
-                            <img src="" class="icone" alt="" style="width: 25px; height: 25px;">
-                        </div>
                         
-                        <!-- <span class="material-symbols-outlined mx-5">settings</span> -->
-                        <img src="" class="icone" alt="" style="width: 25px; height: 25px;">
-
-                        <header class=" d-flex justify-content-between align-items-center">
-                            
-
-                            <div class="toggle-theme mx-5">
-                                <!-- <span class="material-icons-sharp active">tungsten</span> -->
-                                <!-- <span class="material-icons-sharp"> dark_mode </span> -->
-                                <img src="" class="icone material-icons-sharp active" alt="" style="width: 25px; height: 25px;">
-                                <img src="" class="icone material-icons-sharp" alt="" style="width: 25px; height: 25px;">
-
-                            </div>
-                            
-                            <div class="profile">
-                                <div class="profile-info">
-                                    <p>User: <strong>Admin</strong></p>
-                                </div>
-                                <div class="profile-image">
-                                    <!-- <span class="material-symbols-outlined">account_circle</span> -->
-                                    <img id="dashboard-icon" class="rounded-circle" src="{% static 'images/admin.jpg' %}" style="width: 30px; height: 30px;" alt="">
-
-                                </div>
-                            </div>
-                        </header>
-                    </div>
-                </div>
-                
-                
-                <!-- CARDS -->
-                <div class="insights">
-                    <div class="card border-0">
-                        <div class="card-container">
-                            <div class="card-header bg-transparent border-0">
-                                <span class="material-icons-sharp">
-                                    bar_chart
-                                </span>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-info">
-                                    <h3>Total des étudiants</h3>
-                                    <h1>5 000</h1>
-                                </div>
-
-                                <div class="card-progress">
-                                    <svg width="96" height="96">
-                                        <circle
-                                            id="circle1"
-                                            cx="38"
-                                            cy="38"
-                                            r="36"
-                                            class="stroke-yellow"
-                                        ></circle>
-                                    </svg>
-                                    <div class="percentage">
-                                        <p>17%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-transparent border-0">
-                                <small>Au cours des 48 dernières heures</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card border-0">
-                        <div class="card-container">
-                            <div class="card-header bg-transparent border-0">
-                                <span class="material-icons-sharp">
-                                    add_shopping_cart
-                                </span>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-info">
-                                    <h3>Nouvelles inscriptions</h3>
-                                    <h1>150</h1>
-                                </div>
-
-                                <div class="card-progress">
-                                    <svg width="96" height="96">
-                                        <circle
-                                            id="circle2"
-                                            cx="38"
-                                            cy="38"
-                                            r="36"
-                                            class="stroke-fuscha"
-                                        ></circle>
-                                    </svg>
-                                    <div class="percentage">
-                                        <p>72%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-transparent border-0">
-                                <small>Au cours des 48 dernières heuress</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card border-0">
-                        <div class="card-container">
-                            <div class="card-header bg-transparent border-0">
-                                <span class="material-icons-sharp">
-                                    group_add
-                                </span>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-info">
-                                    <h3>Enseignants actifs</h3>
-                                    <h1>320</h1>
-                                </div>
-
-                                <div class="card-progress">
-                                    <svg
-                                        width="96"
-                                        height="96"
-                                        class="stroke-cyan"
-                                    >
-                                        <circle
-                                            id="circle3"
-                                            cx="38"
-                                            cy="38"
-                                            r="36"
-                                        ></circle>
-                                    </svg>
-                                    <div class="percentage">
-                                        <p>43%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-transparent border-0">
-                                <small>Comparé au mois dernier</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card border-0">
-                        <div class="card-container">
-                            <div class="card-header bg-transparent border-0">
-                                <span class="material-icons-sharp">
-                                    group_add
-                                </span>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-info">
-                                    <h3>Total des paiements</h3>
-                                    <h1>450K FCFA</h1>
-                                </div>
-
-                                <div class="card-progress">
-                                    <svg
-                                        width="96"
-                                        height="96"
-                                        class="stroke-cyan"
-                                    >
-                                        <circle
-                                            id="circle3"
-                                            cx="38"
-                                            cy="38"
-                                            r="36"
-                                        ></circle>
-                                    </svg>
-                                    <div class="percentage">
-                                        <p>43%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-transparent border-0">
-                                <small>Au cours des 30 derniers jours</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RECENT ORDERS (tableau de list et filtrage)-->
-                <section class="recent-orders">
-                    
-                    <div class="my-5 py-5"></div>
-                    <div class=" col-12 p-5 d-flex align-items-center barre_filter my-5 fw-bold">
-                        <img src="{% static 'images/icon_filter.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
-                        <p class="fs-1 ms-3 text-primary">Filter par: </p>
-                        <p class="fs-1 mx-5">Annees Scolaire: </p>
-                        <select name="" id="" class="rounded-4 mx-1">
-                            <option value="" default>-----------</option>
-                            <option value="2020-2021">2020-2021</option>
-                            <option value="2022-2023">2022-2023</option>
-                            <option value="2024-2025">2024-2025</option>
-                        </select>
-                        <p class="fs-1 mx-5">Classe: </p>
-                        <select name="" id="" class="rounded-4 mx-1">
-                            <option value="" default>-----------</option>
-                            <option value="2020-2021">2020-2021</option>
-                            <option value="2022-2023">2022-2023</option>
-                            <option value="2024-2025">2024-2025</option>
-                        </select>
-                        <p class="fs-1 mx-5">Niveau: </p>
-                        <select name="" id="" class="rounded-4 mx-1">
-                            <option value="" default>-----------</option>
-                            <option value="2020-2021">2020-2021</option>
-                            <option value="2022-2023">2022-2023</option>
-                            <option value="2024-2025">2024-2025</option>
-                        </select>
-                        <button class="btn btn-outline-primary fs-1 px-5 py-3 mx-4">Filtrer</button>
-                        <img src="{% static 'images/icon_printer.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
-                        <p class="fs-1 ms-3 ">Imprimer </p>
-
-                    </div>
-                    
-
-                    <table class=" rounded-5">
-                        <div class="d-flex justify-content-center align-item-center p-2 barre-info margin-bottom--15 ">
-                            <div class="col-12 bg-yellow d-flex justify-content-center align-item-center py-4 rounded-4 mx-5">
-                                <p class="fs-1 fw-bold">Information du cadre</p>
-                            </div>
-
-                        </div>
-                        <thead class="">
-                            <tr class="">
-                                <th>Dtail</th>
-                                <th>Matricule</th>
-                                <th>Nom</th>
-                                <th>Prenom</th>
-                                <th>Adresse</th>
-                                <th>Niveau</th>
-                                <th>Action</th>                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <img src="{% static 'images/icon_eye.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
-
-                                </td>
-                                <td>12</td>
-                                <td>Diallo</td>
-                                <td>Mamadou saidou</td>
-                                <td>Dakar</td>
-                                <td class="">Licence 1</td>
-                                <td class="d-flex justify-content-center align-items-center">
-                                    <img src="{% static 'images/icon_edit.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
-                                    <div class="p-5 "></div>
-                                    <img src="{% static 'images/icon_delete.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Delete Icon" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="{% static 'images/icon_eye.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
-
-                                </td>
-                                <td>13</td>
-                                <td>Diallo</td>
-                                <td>Ousmane</td>
-                                <td>Mboor</td>
-                                <td class="">Licence 2</td>
-                                <td class="d-flex justify-content-center align-items-center">
-                                    <img src="{% static 'images/icon_edit.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
-                                    <div class="p-5 "></div>
-                                    <img src="{% static 'images/icon_delete.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Delete Icon" />
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </section>
-            </main>
-            
+                        <tr>
+                            <td>
+                                <img src="{% static 'images/icon_eye.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
+                            </td>
+                            <td>Sall</td>
+                            <td>Idriss</td>
+                            <td>Licence 2</td>
+                            <td>Algo3</td>
+                            <td>Present</td>
+                            <td class="d-flex justify-content-center align-items-center">
+                                <img src="{% static 'images/icon_edit.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
+                                <div class="p-5 "></div>
+                                <img src="{% static 'images/icon_delete.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Delete Icon" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
     </div>
 {% endblock content %}
 
 {% block js %}
-    {% comment %} <script src="{% static 'js/script2.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="{% static 'script2.js' %}"></script>
-    <script src="{% static 'script3.js' %}"></script>
-    <script src="{% static 'onOffInternet.js' %}"></script> {% endcomment %}
+    <script src="{% static 'js/script.js' %}"></script>
 {% endblock js %}
