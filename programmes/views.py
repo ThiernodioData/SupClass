@@ -154,25 +154,43 @@ def batiment(request):
 
 @login_required
 
-def liste_absences(request):
-    niveau_filtre = request.GET.get('niveau', None)
-    matiere_filtre = request.GET.get('matiere', None)
-    niveaux = Niveau.objects.all()
-    matieres = Matiere.objects.filter(niveau__nom=niveau_filtre) if niveau_filtre else Matiere.objects.none()
-    etudiants = Utilisateur.objects.filter(role='etudiant', niveau_id__nom=niveau_filtre) if niveau_filtre else Utilisateur.objects.none()
 
-    # Calculer l'absence pour chaque étudiant
-    today = date.today()
-    absences = {}
+def liste_absences(request):
+    # Récupération des niveaux et matières pour le formulaire
+    niveaux = Niveau.objects.all()
+    matieres = Matiere.objects.all()
+
+    # Récupérer les filtres du GET
+    niveau_filtre = request.GET.get('niveau')
+    matiere_filtre = request.GET.get('matiere')
+
+    # Filtrer les étudiants par niveau
+    etudiants = Utilisateur.objects.filter(role='etudiant')
+    if niveau_filtre:
+        etudiants = etudiants.filter(niveau_id__nom=niveau_filtre)
+
+    # Récupérer les présences déjà enregistrées
+    presences = {}
     if niveau_filtre and matiere_filtre:
+        emplois_du_temps = EmploiDuTemps.objects.filter(matiere__nom=matiere_filtre)
+        absences = CahierAbsence.objects.filter(
+            emploi_du_temps__in=emplois_du_temps,
+            date=now().date()
+        )
+        presences = {absence.utilisateur.id: absence.present for absence in absences}
+
+    if request.method == 'POST':
+        # Enregistrer les présences
+        emplois_du_temps = EmploiDuTemps.objects.filter(matiere__nom=matiere_filtre).first()
         for etudiant in etudiants:
-            # Vérifier si l'étudiant a une absence aujourd'hui pour la matière filtrée
-            absence = CahierAbsence.objects.filter(
+            present = request.POST.get(f'presence_{etudiant.id}') == 'on'
+            CahierAbsence.objects.update_or_create(
                 utilisateur=etudiant,
-                date=today,
-                emploi_du_temps__matiere__nom=matiere_filtre
-            ).exists()
-            absences[etudiant.id] = absence
+                emploi_du_temps=emplois_du_temps,
+                date=now().date(),
+                defaults={'present': present},
+            )
+        return redirect('programme:liste_absences')
 
     context = {
         'niveaux': niveaux,
@@ -180,9 +198,10 @@ def liste_absences(request):
         'etudiants': etudiants,
         'niveau_filtre': niveau_filtre,
         'matiere_filtre': matiere_filtre,
-        'absences': absences,
+        'presences': presences,
     }
     return render(request, 'emergement.html', context)
+
 
 
 

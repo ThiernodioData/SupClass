@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load custom_filters %}
 {% block head %}
     <title>Gestion des Absences</title>
 {% endblock head %}
@@ -12,22 +12,12 @@
 
     <!-- Main -->
     <main class="main-container">
+        <!-- Header -->
         <div class="header-right row col-12 bg-red p-5 d-flex justify-content-between align-items-center">
             <div class="info d-flex justify-content-between align-items-center col-auto">
                 <h1 class="main-title fw-bold text-grey fs-20 me-4 d-inline-block col-4 sup">Gestion des Absences</h1>
             </div>
         </div>
-
-        <!-- Alertes de messages -->
-        {% if messages %}
-        <div class="alert-container">
-            {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
 
         <!-- Sélection du niveau et de la matière -->
         {% if not niveau_filtre or not matiere_filtre %}
@@ -62,7 +52,7 @@
                                 </select>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                                <button type="submit" class="btn btn-primary">Valider</button>
                             </div>
                         </form>
                     </div>
@@ -71,35 +61,42 @@
         </div>
         {% endif %}
 
-        <!-- Table des absences -->
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Présent</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for etudiant in etudiants %}
-                <tr>
-                    <td>{{ etudiant.nom }}</td>
-                    <td>{{ etudiant.prenom }}</td>
-                    <td>
-                        <input type="checkbox" name="presence_{{ etudiant.id }}" 
-                            {% if etudiant.cahierabsence_set.filter(date=now|date:"Y-m-d", emploi_du_temps__matiere__nom=matiere_filtre).exists %}
-                            checked
-                            {% endif %}
-                        >
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="3" class="text-center">Aucun étudiant trouvé pour ce niveau.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <!-- Tableau des absences -->
+        {% if niveau_filtre and matiere_filtre %}
+        <section class="recent-orders">
+            <h2 class="text-center my-4">Liste des étudiants - Niveau : {{ niveau_filtre }} - Matière : {{ matiere_filtre }}</h2>
+            <form method="post" action="">
+                {% csrf_token %}
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Présent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for etudiant in etudiants %}
+                        <tr>
+                            <td>{{ etudiant.nom }}</td>
+                            <td>{{ etudiant.prenom }}</td>
+                            <td>
+                                <input type="checkbox" name="presence_{{ etudiant.id }}" {% if presences|dict_has_key:etudiant.id %}checked{% endif %}>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center">Aucun étudiant trouvé pour ce niveau.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="text-center my-4">
+                    <button type="submit" class="btn btn-success">Enregistrer</button>
+                </div>
+            </form>
+        </section>
+        {% endif %}
     </main>
 </div>
 {% endblock content %}
