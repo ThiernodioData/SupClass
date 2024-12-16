@@ -38,29 +38,28 @@
                 </div>
             </div>
 
-            <!-- CARDS -->
-            <div class="insights">
-                {% for niveau in niveaux %}
-                <a href="?niveau={{ niveau }}">
-                    <div class="card border-0 cadre-niveau" data-niveau="{{ niveau }}">
-                        <div class="card-container">
-                            <div class="card-header bg-transparent border-0">
-                                <span class="material-icons-sharp">bar_chart</span>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-info">
-                                    <h3>{{ niveau }}</h3>
-                                </div>
-                            </div>
+             <!-- Cards (Niveaux) -->
+        <div class="insights">
+            {% for niveau in niveaux %}
+            <a href="?niveau={{ niveau.nom }}">
+                <div class="card border-0 cadre-niveau" data-niveau="{{ niveau.nom }}">
+                    <div class="card-container">
+                        <div class="card-header bg-transparent border-0">
+                            <span class="material-icons-sharp">bar_chart</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>{{ niveau.nom }}</h3>
                         </div>
                     </div>
-                </a>
-                {% endfor %}
-            </div>
-            
-            
-           <!-- RECENT ORDERS (tableau de list et filtrage)-->
-           <section class="recent-orders">
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        
+
+        <!-- Table (Liste des notes) -->
+        <section class="recent-orders">
             <div class="my-5 py-5"></div>
             <div class="col-12 p-5 d-flex align-items-center barre_filter my-5 fw-bold">
                 <img src="{% static 'images/icon_filter.png' %}" class="img-fluid" style="width: 30px; height: 30px;" alt="Edit Icon" />
@@ -89,46 +88,38 @@
                 <p class="fs-1 ms-3 ">Imprimer </p>
             </div>
 
-            <table class="rounded-5 ">
-                <div class="d-flex justify-content-center align-item-center p-2 barre-info margin-bottom--15 ">
-                    <div class="col-12 bg-yellow d-flex justify-content-center align-item-center py-4 rounded-4 mx-5">
-                        <p class="fs-1 fw-bold">Information du cadre</p>
-                    </div>
-                </div>
-                <thead class="">
-                    <tr class="">
+            <table class="rounded-5">
+                <thead>
+                    <tr>
                         <th>Nom</th>
-                        <th>Prenom</th>
-                        <th>Niveau</th>
-                        <th>Matiere</th>
-                        <th>Status</th>
+                        <th>Prénom</th>
+                        <th>Matière</th>
+                        <th>Note Cours</th>
+                        <th>Note Examen</th>
+                        <th>Moyenne</th>
                         <th>Date</th>
-
                     </tr>
                 </thead>
-                    <tbody>
-                        {% for absence in absences %}
-                        <tr>
-                            <td>{{ absence.utilisateur.nom }}</td>
-                            <td>{{ absence.utilisateur.prenom }}</td>
-                            <td>{{ absence.utilisateur.niveau_id.nom }}</td>
-                            <td>
-                                {% if absence.emploi_du_temps.matiere %}
-                                    {{ absence.emploi_du_temps.matiere.nom }}
-                                {% else %}
-                                    Aucune matière assignée
-                                {% endif %}
-                            </td>
+                <tbody>
+                    {% for note in notes %}
+                    <tr>
+                        <td>{{ note.utilisateur.nom }}</td>
+                        <td>{{ note.utilisateur.prenom }}</td>
+                        <td>{{ note.matiere.nom }}</td>
+                        <td>{{ note.note_cour }}</td>
+                        <td>{{ note.note_examen }}</td>
+                        <td>{{ note.moyenne }}</td>
+                        <td>{{ note.date_ajout|date:"d-m-Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">Aucune note trouvée</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
 
-                            <td>{% if absence.present %}Présent{% else %}Absent{% endif %}</td>
-                            <td>{{ absence.date }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </section>
-            
-            
         </main>
     </div>
 {% endblock content %}

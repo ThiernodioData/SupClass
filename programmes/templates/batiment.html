@@ -37,9 +37,24 @@
             </div>
         </div>
                 
+        <div class="container data-add mt-5 barre_filter">
+            <div class="rounded-3">
+                <div class="card-header text-white text-center py-3 bg-yellow rounded-4">
+                    <h3 class="h1 fw-bold">Ajouter un Bâtiment</h3>
+                </div>
+        
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Soumettre</button>
+                </form>
+            </div>
+        </div>
+        
+         
+
                 
-                
-            </main>
+    </main>
             
     </div>
 {% endblock content %}

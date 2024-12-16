@@ -36,21 +36,56 @@
                 </div>
             </div>
         </div>
-          
-
-        <div class="container data-add mt-5 barre_filter">
+                
+        <div class="container mt-5">
             <div class="rounded-3">
                 <div class="card-header text-white text-center py-3 bg-yellow rounded-4">
-                    <h3 class="h1 fw-bold">Ajouter une Salle</h3>
+                    <h3 class="h1 fw-bold">Ajouter un utilisateur</h3>
                 </div>
         
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data" class="form-data-add row g-3 d-flex justify-content-center col-12 py-5 fw-bold">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">Soumettre</button>
+                    <div class="form-group col-6">
+                        {{ form.nom.label_tag }}
+                        {{ form.nom }}
+                    </div>
+                    <div class="form-group col-6">
+                        {{ form.prenom.label_tag }}
+                        {{ form.prenom }}
+                    </div>
+                    <div class="form-group col-6">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                    </div>
+                    <div class="form-group col-6">
+                        {{ form.mot_de_passe.label_tag }}
+                        {{ form.mot_de_passe }}
+                    </div>
+                    <div class="form-group col-6">
+                        {{ form.role.label_tag }}
+                        {{ form.role }}
+                    </div>
+                    <div class="form-group col-6">
+                        {{ form.niveau_id.label_tag }}
+                        {{ form.niveau_id }}
+                    </div>
+                    <div class="form-group col-6">
+                        {{ form.matricule.label_tag }}
+                        {{ form.matricule }}
+                    </div>
+                    <div class="form-group col-6">
+                        {{ form.photo.label_tag }}
+                        {{ form.photo }}
+                    </div>
+                    <div class="col-12 d-flex justify-content-center mt-4">
+                        <button type="reset" class="btn btn-outline-info fs-3">RÉINITIALISER</button>
+                        <button type="submit" class="btn btn-outline-success fs-3 mx-5">SOUMETTRE</button>
+                    </div>
                 </form>
+                
             </div>
         </div>
+        
                 
                 
     </main>

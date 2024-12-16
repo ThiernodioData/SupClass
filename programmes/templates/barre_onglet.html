@@ -27,47 +27,67 @@
                 </a>
             </li>
             <li class="item">
-                <a href="{% url 'programme:eleves' %}">
+                <a href="{% url 'programme:utilisateur' %}">
                     <span class="material-symbols-outlined">group_add</span>
-                    <span>Elèves</span>
+                    <span>Utilisateur</span>
                 </a>
             </li>
+            
             <li class="item">
-                <a href="{% url 'programme:enseignants' %}">
-                    <span class="material-symbols-outlined">group_add</span>
-                    <span>Enseignants</span>
-                </a>
-            </li>
-            <li class="item">
-                <a href="{% url 'programme:cours' %}" class="active">
+                <a href="{% url 'programme:niveau' %}" class="">
                     <span class="material-symbols-outlined">menu_book</span>
-                    <span>Cours</span>
+                    <span>Niveau</span>
+                </a>
+            </li>
+
+            <li class="item">
+                <a href="{% url 'programme:matiere' %}" class="">
+                    <span class="material-symbols-outlined">menu_book</span>
+                    <span>Matiere</span>
+                </a>
+            </li>
+
+            <li class="item">
+                <a href="{% url 'programme:batiment' %}" class="">
+                    <span class="material-symbols-outlined">menu_book</span>
+                    <span>Batiment</span>
                 </a>
             </li>
             <li class="item">
-                <a href="{% url 'programme:emargements' %}">
+                <a href="{% url 'programme:matiere' %}" class="">
+                    <span class="material-symbols-outlined">menu_book</span>
+                    <span>Matiere</span>
+                </a>
+            </li>
+
+
+            <li class="item">
+                <a href="{% url 'programme:liste_absences' %}">
                     <span class="material-symbols-outlined">note_alt</span>
                     <span>Emargements</span>
                 </a>
             </li>
             <li class="item">
-                <a href="{% url 'programme:notes' %}">
+                <a href="{% url 'programme:addnote' %}">
                     <span class="material-symbols-outlined">add_notes</span>
-                    <span>Notes</span>
+                    <span>Add Notes</span>
                 </a>
             </li>
+            
+            <li class="item">
+                <a href="{% url 'programme:shownote' %}">
+                    <span class="material-symbols-outlined">add_notes</span>
+                    <span>Show Notes</span>
+                </a>
+            </li>
+
             <li class="item">
                 <a href="{% url 'programme:salles' %}">
                     <span class="material-symbols-outlined">meeting_room</span>
                     <span>Salles</span>
                 </a>
             </li>
-            <li class="item">
-                <a href="{% url 'programme:classe' %}">
-                    <span class="material-symbols-outlined">history_edu</span>
-                    <span>Classe</span>
-                </a>
-            </li>
+            
             
             <li class="item">
                 <a href="{% url 'programme:logout' %}">

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Gestion des Absences</title>
+{% endblock head %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Barre d'onglet -->
+    {% include 'barre_onglet.html' %}
+
+    <!-- Main -->
+    <main class="main-container">
+        <div class="header-right row col-12 bg-red p-5 d-flex justify-content-between align-items-center">
+            <div class="info d-flex justify-content-between align-items-center col-auto">
+                <h1 class="main-title fw-bold text-grey fs-20 me-4 d-inline-block col-4 sup">Gestion des Absences</h1>
+            </div>
+        </div>
+
+        <!-- Alertes de messages -->
+        {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Sélection du niveau et de la matière -->
+        {% if not niveau_filtre or not matiere_filtre %}
+        <div id="niveauMatiereModal" class="modal fade show" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Choisissez un niveau et une matière</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form method="get" action="">
+                            <div class="mb-3">
+                                <label for="niveau" class="form-label">Niveau</label>
+                                <select name="niveau" id="niveau" class="form-select" required>
+                                    <option value="">-- Sélectionner un niveau --</option>
+                                    {% for niveau in niveaux %}
+                                    <option value="{{ niveau.nom }}" {% if niveau.nom == niveau_filtre %}selected{% endif %}>
+                                        {{ niveau.nom }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="matiere" class="form-label">Matière</label>
+                                <select name="matiere" id="matiere" class="form-select" required>
+                                    <option value="">-- Sélectionner une matière --</option>
+                                    {% for matiere in matieres %}
+                                    <option value="{{ matiere.nom }}" {% if matiere.nom == matiere_filtre %}selected{% endif %}>
+                                        {{ matiere.nom }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Table des absences -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Présent</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for etudiant in etudiants %}
+                <tr>
+                    <td>{{ etudiant.nom }}</td>
+                    <td>{{ etudiant.prenom }}</td>
+                    <td>
+                        <input type="checkbox" name="presence_{{ etudiant.id }}" 
+                            {% if etudiant.cahierabsence_set.filter(date=now|date:"Y-m-d", emploi_du_temps__matiere__nom=matiere_filtre).exists %}
+                            checked
+                            {% endif %}
+                        >
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">Aucun étudiant trouvé pour ce niveau.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const niveauMatiereModal = new bootstrap.Modal(document.getElementById('niveauMatiereModal'));
+        {% if not niveau_filtre or not matiere_filtre %}
+        niveauMatiereModal.show(); // Affiche le popup si le niveau ou la matière n'est pas choisi
+        {% endif %}
+    });
+</script>
+{% endblock js %}

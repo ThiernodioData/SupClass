@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.text import slugify
+from django.db import IntegrityError
 # Pour les slugs qui servent à générer des URL conviviales
 
 # Create your models here.
@@ -29,10 +30,17 @@ class Matiere(models.Model):
     professeur = models.ForeignKey('Utilisateur', on_delete=models.CASCADE) # Référence au professeur
     slug = models.SlugField(unique=True, blank=True) # Slug pour l'URL
 
-    def save(self, *args, **kwargs): # Cette méthode est utilisée pour personnaliser le comportement de sauvegarde d'un modèle.
+    def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.nom) # Générer un slug basé sur le nom
-        super(Matiere, self).save(*args, **kwargs)  # s'assure que les modifications apportées au modèle sont correctement enregistrées dans la base de données.
+            self.slug = slugify(self.nom)  # Générer un slug basé sur le nom
+        
+        # Vérifier si le slug existe déjà
+        try:
+            super(Matiere, self).save(*args, **kwargs)  # Essayer de sauvegarder l'objet
+        except IntegrityError:
+            # Si le slug existe déjà, ajoutez un suffixe pour garantir son unicité
+            self.slug = f"{self.slug}-{self.id}"
+            super(Matiere, self).save(*args, **kwargs)  # Sauvegarder après avoir modifié le slug
 
     def __str__(self): # Cette méthode définit la représentation en chaîne de caractères de l'objet. Elle est utilisée par Django dans ses interfaces et lors des conversions en chaîne de caractères.
         return self.nom
