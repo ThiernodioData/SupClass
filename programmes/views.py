@@ -129,15 +129,19 @@ def shownote(request):
 
 
 @login_required
+
+
 def salles(request):
-    if request.method == 'POST':
-        form = SalleForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('programme:tableau_bord')  # Redirige vers la page tableau_bord après la soumission du formulaire
-    else:
-        form = SalleForm()
-    return render(request, 'salles.html', {'form': form})
+    user = request.user
+    # Assurez-vous que l'utilisateur est lié à un niveau
+    niveau = getattr(user, 'niveau', None)  # Utilise un attribut lié
+    form = SalleForm()
+
+    context = {
+        'form': form,
+        'niveau': niveau  # Ajoutez le niveau au contexte
+    }
+    return render(request, 'salles.html', context)
 
 @login_required
 def batiment(request):
@@ -234,3 +238,29 @@ def user_logout(request):
     logout(request)
     return redirect('programme:login')  # Redirige vers la page de connexion
 
+
+
+
+
+@login_required
+def espace_echange(request, niveau_slug):
+    # Récupérer le niveau à partir du slug
+    niveau = get_object_or_404(Niveau, slug=niveau_slug)
+    messages = EspaceEchange.objects.filter(niveau=niveau).order_by('date_message')
+    
+    if request.method == 'POST':
+        contenu = request.POST.get('contenu')
+        if contenu:
+            EspaceEchange.objects.create(
+                niveau=niveau,
+                contenu=contenu,
+                auteur=request.user,  # L'utilisateur connecté
+                slug=slugify(f"{request.user.nom}-{timezone.now()}")
+            )
+            return redirect('espace_echange', niveau_slug=niveau_slug)
+
+    context = {
+        'niveau': niveau,
+        'messages': messages,
+    }
+    return render(request, 'espace_echange.html', context)

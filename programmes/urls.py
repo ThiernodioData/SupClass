@@ -16,6 +16,6 @@ urlpatterns = [
     path('shownote/', shownote, name='shownote'),
     path('salles/', salles, name='salles'),
     path('liste_absences/', liste_absences, name='liste_absences'),
-
+    path('espace-echange/<slug:niveau_slug>/',espace_echange, name='espace_echange'),
     path('emplois_du_temps/', emplois_du_temps, name='emplois_du_temps'),
 ]

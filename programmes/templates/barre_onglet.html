@@ -87,6 +87,24 @@
                     <span>Salles</span>
                 </a>
             </li>
+
+            <li class="item">
+                {% if niveau and niveau.slug %}
+                    <!-- Bouton pour ouvrir la modale -->
+                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#niveauModal">
+                        <span class="material-symbols-outlined">meeting_room</span>
+                        <span>Espace D'Echange</span>
+                    </a>
+                {% else %}
+                    <a href="#" onclick="alert('Aucun niveau attribué à votre compte !')">
+                        <span class="material-symbols-outlined">meeting_room</span>
+                        <span>Espace D'Echange</span>
+                    </a>
+                {% endif %}
+            </li>
+            
+            
+            
             
             
             <li class="item">

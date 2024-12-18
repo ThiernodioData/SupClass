@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.text import slugify
 from django.db import IntegrityError
+from django.contrib.auth.models import AbstractUser, Group, Permission
 # Pour les slugs qui servent à générer des URL conviviales
 
 # Create your models here.
@@ -21,6 +22,28 @@ class Niveau(models.Model):
     def __str__(self): # Cette méthode définit la représentation en chaîne de caractères de l'objet. Elle est utilisée par Django dans ses interfaces et lors des conversions en chaîne de caractères.
         return self.nom
 
+
+class CustomUser(AbstractUser):
+    niveau = models.ForeignKey('Niveau', on_delete=models.SET_NULL, null=True, blank=True)
+    
+    # Résoudre les conflits en ajoutant related_name
+    groups = models.ManyToManyField(
+        Group,
+        related_name="customuser_groups",  # Nom unique pour éviter le conflit
+        blank=True,
+        help_text="The groups this user belongs to.",
+        verbose_name="groups",
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name="customuser_permissions",  # Nom unique pour éviter le conflit
+        blank=True,
+        help_text="Specific permissions for this user.",
+        verbose_name="user permissions",
+    )
+
+    def __str__(self):
+        return self.username
 # Table Matiere
 
 class Matiere(models.Model):
