@@ -156,51 +156,84 @@ def batiment(request):
 
 
 def liste_absences(request):
-    # Récupération des niveaux et matières pour le formulaire
-    niveaux = Niveau.objects.all()
-    matieres = Matiere.objects.all()
-
-    # Récupérer les filtres du GET
     niveau_filtre = request.GET.get('niveau')
     matiere_filtre = request.GET.get('matiere')
+    utilisateurs = []
+    matieres = []
+    emploi_du_temps = None
 
-    # Filtrer les étudiants par niveau
-    etudiants = Utilisateur.objects.filter(role='etudiant')
     if niveau_filtre:
-        etudiants = etudiants.filter(niveau_id__nom=niveau_filtre)
+        try:
+            niveau = Niveau.objects.get(nom=niveau_filtre)
+            matieres = Matiere.objects.filter(niveau=niveau)
 
-    # Récupérer les présences déjà enregistrées
-    presences = {}
-    if niveau_filtre and matiere_filtre:
-        emplois_du_temps = EmploiDuTemps.objects.filter(matiere__nom=matiere_filtre)
-        absences = CahierAbsence.objects.filter(
-            emploi_du_temps__in=emplois_du_temps,
-            date=now().date()
-        )
-        presences = {absence.utilisateur.id: absence.present for absence in absences}
+            if matiere_filtre:
+                matiere = Matiere.objects.filter(niveau=niveau, nom=matiere_filtre).first()
+                if matiere:
+                    utilisateurs = Utilisateur.objects.filter(niveau_id=niveau, role='etudiant')
+
+                    # Récupérer l'utilisateur connecté (ou un autre utilisateur par défaut)
+                    utilisateur_modifie_par = request.user  # Utilisateur actuellement connecté
+
+                    # Rechercher ou créer une salle par défaut
+                    salle_defaut = Salle.objects.first()
+                    if not salle_defaut:
+                        batiment_defaut = Batiment.objects.first()
+                        if not batiment_defaut:
+                            batiment_defaut = Batiment.objects.create(nom="Bâtiment Générique", adresse="Inconnu")
+                        salle_defaut = Salle.objects.create(nom="Salle Générique", capacite=30, batiment=batiment_defaut)
+
+                    # Créer un emploi du temps par défaut
+                    emploi_du_temps = EmploiDuTemps.objects.filter(niveau=niveau, matiere=matiere).first()
+                    if not emploi_du_temps:
+                        emploi_du_temps = EmploiDuTemps.objects.create(
+                            niveau=niveau,
+                            matiere=matiere,
+                            salle=salle_defaut,  # Salle par défaut
+                            date=date.today(),
+                            heure_debut="08:00",
+                            heure_fin="10:00",
+                            titre_lesson="Absence Générale",
+                            contenu_lesson="",
+                            duree_faite="00:00",
+                            signature_prof="Système",
+                            modifie_par=utilisateur_modifie_par  # Fournir un utilisateur valide pour le champ modifie_par
+                        )
+        except Niveau.DoesNotExist:
+            pass
 
     if request.method == 'POST':
-        # Enregistrer les présences
-        emplois_du_temps = EmploiDuTemps.objects.filter(matiere__nom=matiere_filtre).first()
-        for etudiant in etudiants:
-            present = request.POST.get(f'presence_{etudiant.id}') == 'on'
+        attendance_date = request.POST.get('date', date.today())
+        for utilisateur in utilisateurs:
+            present = f'presence_{utilisateur.id}' in request.POST
             CahierAbsence.objects.update_or_create(
-                utilisateur=etudiant,
-                emploi_du_temps=emplois_du_temps,
-                date=now().date(),
-                defaults={'present': present},
+                emploi_du_temps=emploi_du_temps,
+                utilisateur=utilisateur,
+                date=attendance_date,
+                defaults={
+                    'present': present,
+                    'note_absence': request.POST.get(f'note_{utilisateur.id}', '')
+                }
             )
-        return redirect('programme:liste_absences')
+        return redirect('liste_absences')
 
-    context = {
-        'niveaux': niveaux,
+    return render(request, 'emergement.html', {
+        'niveaux': Niveau.objects.all(),
         'matieres': matieres,
-        'etudiants': etudiants,
+        'utilisateurs': utilisateurs,
         'niveau_filtre': niveau_filtre,
         'matiere_filtre': matiere_filtre,
-        'presences': presences,
-    }
-    return render(request, 'emergement.html', context)
+        'current_date': date.today(),
+    })
+
+
+
+
+
+
+
+
+
 
 
 

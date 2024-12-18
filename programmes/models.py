@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.text import slugify
 from django.db import IntegrityError
+from django.contrib.auth.models import User
 # Pour les slugs qui servent à générer des URL conviviales
 
 # Create your models here.
@@ -78,6 +79,7 @@ class Batiment(models.Model):
 
 # Table Utilisateur
 
+
 class Utilisateur(models.Model):
     ROLE_CHOICES = [ 
         ('administrateur', 'Administrateur'),
@@ -85,25 +87,27 @@ class Utilisateur(models.Model):
         ('etudiant', 'Etudiant'),
         ('chef_classe', 'Chef de Classe'),
     ] 
-    nom = models.CharField(max_length=50) # Nom de l'utilisateur
-    prenom = models.CharField(max_length=50) # Prenom de l'utilisateur
-    email = models.EmailField(max_length=100, unique=True) # Email de l'utilisateur
-    mot_de_passe = models.CharField(max_length=255) # Mot de passe de l'utilisateur
-    role = models.CharField(max_length=50, choices=ROLE_CHOICES) # Rôle de l'utilisateur
-    date_creation = models.DateTimeField(auto_now_add=True) # Date de création du compte
-    niveau_id = models.ForeignKey('Niveau', on_delete=models.CASCADE) # Référence au niveau
-    matricule = models.CharField(max_length=50, unique=True) # Matricule de l'utilisateur
-    photo = models.ImageField(upload_to='media/images/', blank=True, null=True) # Photo de l'utilisateur
-    slug = models.SlugField(max_length=200, unique=True, blank=True, null=True) # Slug pour l'URL
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Lier à un utilisateur Django (User)
+    nom = models.CharField(max_length=50)  # Nom de l'utilisateur
+    prenom = models.CharField(max_length=50)  # Prénom de l'utilisateur
+    email = models.EmailField(max_length=100, unique=True)  # Email de l'utilisateur
+    mot_de_passe = models.CharField(max_length=255)  # Mot de passe de l'utilisateur
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES)  # Rôle de l'utilisateur
+    date_creation = models.DateTimeField(auto_now_add=True)  # Date de création du compte
+    niveau_id = models.ForeignKey('Niveau', on_delete=models.CASCADE)  # Référence au niveau
+    matricule = models.CharField(max_length=50, unique=True)  # Matricule de l'utilisateur
+    photo = models.ImageField(upload_to='media/images/', blank=True, null=True)  # Photo de l'utilisateur
+    slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)  # Slug pour l'URL
 
-    def save(self, *args, **kwargs): # Cette méthode est utilisée pour personnaliser le comportement de sauvegarde d'un modèle.
-        if not self.slug: # Cette condition vérifie si le champ slug n'a pas encore été défini.
-            self.slug = slugify(f'{self.nom}-{self.prenom}') # Générer un slug basé sur le nom et prénom
-        super(Utilisateur, self).save(*args, **kwargs)  # s'assure que les modifications apportées au modèle sont correctement enregistrées dans la base de données.
+    def save(self, *args, **kwargs):  # Cette méthode personnalise le comportement de sauvegarde du modèle.
+        if not self.slug:  # Vérifie si le champ slug n'est pas défini
+            self.slug = slugify(f'{self.nom}-{self.prenom}')  # Générer un slug basé sur le nom et le prénom
+        super(Utilisateur, self).save(*args, **kwargs)  # Sauvegarde l'objet
 
-    def __str__(self): # Cette méthode définit la représentation en chaîne de caractères de l'objet. Elle est utilisée par Django dans ses interfaces et lors des conversions en chaîne de caractères.
+    def __str__(self):  # Représentation en chaîne de caractères de l'objet
         return f'{self.nom} {self.prenom}'
-        
+
+       
 # Table Notification
         
 class Notification(models.Model):
@@ -131,29 +135,42 @@ class Notification(models.Model):
 
 # Table EmploiDuTemps
 
+
+
 class EmploiDuTemps(models.Model):
-    niveau = models.ForeignKey('Niveau', on_delete=models.CASCADE) # Référence au niveau
-    matiere = models.ForeignKey('Matiere', on_delete=models.CASCADE) # Référence à la matiere
-    salle = models.ForeignKey('Salle', on_delete=models.CASCADE) # Référence à la salle
-    date = models.DateField() # Date du cours
-    heure_debut = models.TimeField() # Heure de debut du cours
-    heure_fin = models.TimeField() # Heure de fin du cours
-    titre_lesson = models.CharField(max_length=100) # Titre de la leçon
-    contenu_lesson = models.TextField() # Contenu de la leçon
-    duree_faite = models.TimeField() # Durée effectuée
-    signature_prof = models.CharField(max_length=100) # Signature du professeur
-    commentaire = models.TextField(null=True, blank=True) #Commentaire
-    modifie_par = models.ForeignKey('Utilisateur', on_delete=models.CASCADE) # Référence à l'utilisateur qui a modifié
-    ressource = models.FileField(upload_to='ressources/', blank=True, null=True) # Ressources liées au cours
+    niveau = models.ForeignKey('Niveau', on_delete=models.CASCADE)  # Référence au niveau
+    matiere = models.ForeignKey('Matiere', on_delete=models.CASCADE)  # Référence à la matière
+    salle = models.ForeignKey('Salle', on_delete=models.CASCADE)  # Référence à la salle
+    date = models.DateField()  # Date du cours
+    heure_debut = models.TimeField()  # Heure de début du cours
+    heure_fin = models.TimeField()  # Heure de fin du cours
+    titre_lesson = models.CharField(max_length=100)  # Titre de la leçon
+    contenu_lesson = models.TextField()  # Contenu de la leçon
+    duree_faite = models.TimeField()  # Durée effectuée
+    signature_prof = models.CharField(max_length=100)  # Signature du professeur
+    commentaire = models.TextField(null=True, blank=True)  # Commentaire
+    modifie_par = models.ForeignKey('Utilisateur', on_delete=models.CASCADE, null=True)  # Référence à l'utilisateur qui a modifié
+    ressource = models.FileField(upload_to='ressources/', blank=True, null=True)  # Ressources liées au cours
     assignation = models.BinaryField(null=True, blank=True)
-    slug = models.SlugField(max_length=200,unique=True, blank=True) # Slug pour l'URL
+    slug = models.SlugField(max_length=200, unique=True, blank=True)  # Slug pour l'URL
 
-    def save(self, *args, **kwargs): # Cette méthode est utilisée pour personnaliser le comportement de sauvegarde d'un modèle.
-        if not self.slug: # Cette condition vérifie si le champ slug n'a pas encore été défini.
-            self.slug = slugify(f'{self.titre_lesson}-{self.date}') # Générer un slug basé sur le titre de la leçon et la date
-        super(EmploiDuTemps, self).save(*args, **kwargs)  # s'assure que les modifications apportées au modèle sont correctement enregistrées dans la base de données.
+    def save(self, *args, **kwargs):  # Cette méthode est utilisée pour personnaliser le comportement de sauvegarde d'un modèle.
+        if not self.slug:  # Cette condition vérifie si le champ slug n'a pas encore été défini.
+            self.slug = slugify(f'{self.titre_lesson}-{self.date}')  # Générer un slug basé sur le titre de la leçon et la date
+        
+        # Assigner l'utilisateur "admin" par défaut si modifie_par est None
+        if self.modifie_par is None:
+            try:
+                # Récupérer l'utilisateur "admin"
+                admin_user = Utilisateur.objects.get(user__username='admin')  # Assurez-vous que 'admin' est le nom d'utilisateur
+                self.modifie_par = admin_user  # Assigner l'utilisateur "admin" à modifie_par
+            except Utilisateur.DoesNotExist:
+                # Gérer le cas où l'utilisateur "admin" n'existe pas
+                raise ValueError("L'utilisateur 'admin' n'existe pas dans la base de données.")
 
-    def __str__(self): # Cette méthode définit la représentation en chaîne de caractères de l'objet. Elle est utilisée par Django dans ses interfaces et lors des conversions en chaîne de caractères.
+        super(EmploiDuTemps, self).save(*args, **kwargs)  # S'assure que les modifications apportées au modèle sont correctement enregistrées dans la base de données.
+
+    def __str__(self):  # Cette méthode définit la représentation en chaîne de caractères de l'objet.
         return f'{self.titre_lesson} ({self.date})'
 
 # Table ReleveDeNote

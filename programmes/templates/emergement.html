@@ -1,31 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load custom_filters %}
+
 {% block head %}
     <title>Gestion des Absences</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock head %}
 
 {% block content %}
 <div class="dashboard-container">
-    <!-- Barre d'onglet -->
     {% include 'barre_onglet.html' %}
 
-    <!-- Main -->
     <main class="main-container">
-        <!-- Header -->
         <div class="header-right row col-12 bg-red p-5 d-flex justify-content-between align-items-center">
             <div class="info d-flex justify-content-between align-items-center col-auto">
                 <h1 class="main-title fw-bold text-grey fs-20 me-4 d-inline-block col-4 sup">Gestion des Absences</h1>
             </div>
         </div>
 
-        <!-- Sélection du niveau et de la matière -->
-        {% if not niveau_filtre or not matiere_filtre %}
-        <div id="niveauMatiereModal" class="modal fade show" tabindex="-1" role="dialog">
+        {% if not niveau_filtre %}
+        <div id="niveauModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="niveauModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Choisissez un niveau et une matière</h5>
+                        <h5 class="modal-title" id="niveauModalLabel">Choisissez un niveau</h5>
                     </div>
                     <div class="modal-body">
                         <form method="get" action="">
@@ -34,25 +33,12 @@
                                 <select name="niveau" id="niveau" class="form-select" required>
                                     <option value="">-- Sélectionner un niveau --</option>
                                     {% for niveau in niveaux %}
-                                    <option value="{{ niveau.nom }}" {% if niveau.nom == niveau_filtre %}selected{% endif %}>
-                                        {{ niveau.nom }}
-                                    </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="matiere" class="form-label">Matière</label>
-                                <select name="matiere" id="matiere" class="form-select" required>
-                                    <option value="">-- Sélectionner une matière --</option>
-                                    {% for matiere in matieres %}
-                                    <option value="{{ matiere.nom }}" {% if matiere.nom == matiere_filtre %}selected{% endif %}>
-                                        {{ matiere.nom }}
-                                    </option>
+                                    <option value="{{ niveau.nom }}">{{ niveau.nom }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Valider</button>
+                                <button type="submit" class="btn btn-primary">Suivant</button>
                             </div>
                         </form>
                     </div>
@@ -61,7 +47,35 @@
         </div>
         {% endif %}
 
-        <!-- Tableau des absences -->
+        {% if niveau_filtre and not matiere_filtre %}
+        <div id="matiereModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="matiereModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="matiereModalLabel">Choisissez une matière</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form method="get" action="">
+                            <input type="hidden" name="niveau" value="{{ niveau_filtre }}">
+                            <div class="mb-3">
+                                <label for="matiere" class="form-label">Matière</label>
+                                <select name="matiere" id="matiere" class="form-select" required>
+                                    <option value="">-- Sélectionner une matière --</option>
+                                    {% for matiere in matieres %}
+                                    <option value="{{ matiere.nom }}">{{ matiere.nom }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Afficher les étudiants</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         {% if niveau_filtre and matiere_filtre %}
         <section class="recent-orders">
             <h2 class="text-center my-4">Liste des étudiants - Niveau : {{ niveau_filtre }} - Matière : {{ matiere_filtre }}</h2>
@@ -76,12 +90,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for etudiant in etudiants %}
+                        {% for utilisateur in utilisateurs %}
                         <tr>
-                            <td>{{ etudiant.nom }}</td>
-                            <td>{{ etudiant.prenom }}</td>
+                            <td>{{ utilisateur.nom }}</td>
+                            <td>{{ utilisateur.prenom }}</td>
                             <td>
-                                <input type="checkbox" name="presence_{{ etudiant.id }}" {% if presences|dict_has_key:etudiant.id %}checked{% endif %}>
+                                <input type="checkbox" name="presence_{{ utilisateur.id }}" 
+                                {% if utilisateur.id in presences %}checked{% endif %}>
                             </td>
                         </tr>
                         {% empty %}
@@ -95,6 +110,7 @@
                     <button type="submit" class="btn btn-success">Enregistrer</button>
                 </div>
             </form>
+            
         </section>
         {% endif %}
     </main>
@@ -104,9 +120,15 @@
 {% block js %}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const niveauMatiereModal = new bootstrap.Modal(document.getElementById('niveauMatiereModal'));
-        {% if not niveau_filtre or not matiere_filtre %}
-        niveauMatiereModal.show(); // Affiche le popup si le niveau ou la matière n'est pas choisi
+        const niveauModalElement = document.getElementById('niveauModal');
+        const matiereModalElement = document.getElementById('matiereModal');
+
+        {% if not niveau_filtre %}
+        const niveauModal = new bootstrap.Modal(niveauModalElement);
+        niveauModal.show();
+        {% elif not matiere_filtre %}
+        const matiereModal = new bootstrap.Modal(matiereModalElement);
+        matiereModal.show();
         {% endif %}
     });
 </script>
