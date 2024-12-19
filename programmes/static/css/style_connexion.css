@@ -231,6 +231,8 @@ animation: animationLeftRight 3s ease-in-out infinite;
 animation: animationLeftRight 4s ease-in-out infinite;
 }
   
+
+
 @keyframes animationLeftRight {
 0% {
     transform: translateX(0px);

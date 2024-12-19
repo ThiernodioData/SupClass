@@ -35,27 +35,22 @@
             
             <li class="item">
                 <a href="{% url 'programme:niveau' %}" class="">
-                    <span class="material-symbols-outlined">menu_book</span>
+                    <span class="material-symbols-outlined">list_alt</span>
                     <span>Niveau</span>
                 </a>
             </li>
 
-            <li class="item">
-                <a href="{% url 'programme:matiere' %}" class="">
-                    <span class="material-symbols-outlined">menu_book</span>
-                    <span>Matiere</span>
-                </a>
-            </li>
+            
 
             <li class="item">
                 <a href="{% url 'programme:batiment' %}" class="">
-                    <span class="material-symbols-outlined">menu_book</span>
+                    <span class="material-symbols-outlined">account_balance</span>
                     <span>Batiment</span>
                 </a>
             </li>
             <li class="item">
                 <a href="{% url 'programme:matiere' %}" class="">
-                    <span class="material-symbols-outlined">menu_book</span>
+                    <span class="material-symbols-outlined">history_edu</span>
                     <span>Matiere</span>
                 </a>
             </li>
@@ -76,7 +71,7 @@
             
             <li class="item">
                 <a href="{% url 'programme:shownote' %}">
-                    <span class="material-symbols-outlined">add_notes</span>
+                    <span class="material-symbols-outlined">visibility</span>
                     <span>Show Notes</span>
                 </a>
             </li>
@@ -92,12 +87,13 @@
                 {% if niveau and niveau.slug %}
                     <!-- Bouton pour ouvrir la modale -->
                     <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#niveauModal">
-                        <span class="material-symbols-outlined">meeting_room</span>
+                        <span class="material-symbols-outlined">sms</span>
                         <span>Espace D'Echange</span>
                     </a>
                 {% else %}
                     <a href="#" onclick="alert('Aucun niveau attribué à votre compte !')">
-                        <span class="material-symbols-outlined">meeting_room</span>
+                        <span class="material-symbols-outlined">sms</span>
+
                         <span>Espace D'Echange</span>
                     </a>
                 {% endif %}
